@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ohana Imóveis — Sua família em um novo lar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf6f8;
+    --warm: #f9edf1;
+    --sand: #f0d4de;
+    --brown: #c4637e;
+    --brown-dark: #7a2a42;
+    --green: #c0436a;
+    --green-light: #d4607f;
+    --green-pale: #fce8ef;
+    --text: #2a1018;
+    --muted: #8a6870;
+    --white: #ffffff;
+    --border: #f0d0da;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'Jost', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* STICKY NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%; height: 64px;
+    background: rgba(248,244,238,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 4px 20px rgba(42,32,24,0.08); }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 600;
+    color: var(--green); letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--brown); font-style: italic; }
+
+  .nav-cta {
+    background: var(--green);
+    color: var(--white);
+    padding: 9px 22px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    text-decoration: none; border: none; cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--green-light); }
+
+  /* ═══════════════════════════
+     HERO — PRIMEIRA DOBRA
+  ═══════════════════════════ */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    background: var(--green);
+    padding: 80px 6% 80px 7%;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .hero-left::before {
+    content: 'OHANA';
+    position: absolute; bottom: -20px; left: -10px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14rem; font-weight: 600;
+    color: rgba(255,255,255,0.04);
+    pointer-events: none; line-height: 1;
+    white-space: nowrap;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.8);
+    padding: 6px 14px; font-size: 0.7rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 28px; width: fit-content;
+    animation: fadeUp 0.8s ease 0.2s both;
+  }
+  .hero-badge::before { content: '📍'; font-size: 0.75rem; }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 5vw, 4.8rem);
+    font-weight: 400; line-height: 1.05;
+    color: var(--white);
+    margin-bottom: 20px;
+    animation: fadeUp 0.8s ease 0.4s both;
+  }
+  .hero-title em { font-style: italic; color: #c8d8b8; }
+
+  .hero-sub {
+    font-size: 0.95rem; font-weight: 300;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.75; max-width: 380px;
+    margin-bottom: 40px;
+    animation: fadeUp 0.8s ease 0.6s both;
+  }
+
+  /* RATING */
+  .hero-rating {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 36px;
+    animation: fadeUp 0.8s ease 0.7s both;
+  }
+  .rating-stars { color: #f5c842; font-size: 1rem; letter-spacing: 2px; }
+  .rating-text { font-size: 0.82rem; color: rgba(255,255,255,0.7); }
+  .rating-num { font-size: 1.1rem; font-weight: 600; color: white; }
+
+  /* CTA BUTTONS */
+  .hero-ctas {
+    display: flex; flex-direction: column; gap: 12px;
+    animation: fadeUp 0.8s ease 0.85s both;
+  }
+  .cta-phone {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--white);
+    color: var(--green);
+    padding: 16px 28px;
+    font-size: 0.85rem; font-weight: 600;
+    letter-spacing: 0.05em;
+    text-decoration: none; border-radius: 2px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: fit-content;
+  }
+  .cta-phone:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+  .cta-phone svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+  .cta-maps {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: transparent;
+    color: rgba(255,255,255,0.85);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 15px 28px;
+    font-size: 0.82rem; font-weight: 400;
+    letter-spacing: 0.05em;
+    text-decoration: none; border-radius: 2px;
+    transition: border-color 0.2s, color 0.2s;
+    width: fit-content;
+  }
+  .cta-maps:hover { border-color: rgba(255,255,255,0.7); color: white; }
+  .cta-maps svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  .hero-right {
+    position: relative; overflow: hidden;
+  }
+  .hero-right img {
+    width: 100%; height: 100%; object-fit: cover;
+    display: block;
+    animation: zoomIn 1.2s ease both;
+  }
+  .hero-right-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, rgba(58,92,69,0.3), transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    position: absolute; bottom: 32px; left: 32px;
+    background: var(--white);
+    padding: 14px 20px;
+    border-left: 3px solid var(--brown);
+    animation: fadeUp 0.8s ease 1s both;
+  }
+  .hero-tag strong { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text); }
+  .hero-tag span { font-size: 0.7rem; color: var(--muted); }
+
+  /* ═══════════════════
+     SERVIÇOS
+  ═══════════════════ */
+  #servicos { background: var(--white); padding: 90px 5%; }
+
+  .section-head { text-align: center; margin-bottom: 60px; }
+  .section-eyebrow {
+    font-size: 0.68rem; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--brown); display: block; margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 400;
+    color: var(--text); line-height: 1.15;
+  }
+  .section-title em { font-style: italic; color: var(--green); }
+  .section-line { width: 48px; height: 1px; background: var(--sand); margin: 18px auto 0; }
+
+  .servicos-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px; max-width: 1100px; margin: 0 auto;
+  }
+
+  .servico-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 40px 32px;
+    position: relative; overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .servico-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 2px; background: var(--green);
+    transition: width 0.4s ease;
+  }
+  .servico-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(42,32,24,0.08); }
+  .servico-card:hover::after { width: 100%; }
+
+  .servico-icon {
+    font-size: 2rem; margin-bottom: 18px; display: block;
+  }
+  .servico-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 600;
+    color: var(--text); margin-bottom: 10px;
+  }
+  .servico-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.75; }
+
+  /* ═══════════════════
+     IMÓVEIS EM DESTAQUE
+  ═══════════════════ */
+  #imoveis { background: var(--cream); padding: 90px 5%; }
+
+  .imoveis-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px; max-width: 1200px; margin: 0 auto;
+  }
+
+  .imovel-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .imovel-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(42,32,24,0.1); }
+
+  .imovel-img { position: relative; overflow: hidden; }
+  .imovel-img img {
+    width: 100%; height: 260px; object-fit: cover; display: block;
+    transition: transform 0.5s ease;
+  }
+  .imovel-card:hover .imovel-img img { transform: scale(1.05); }
+
+  .imovel-tag {
+    position: absolute; top: 14px; left: 14px;
+    background: var(--green); color: white;
+    font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 4px 10px;
+  }
+
+  .imovel-body { padding: 24px; }
+  .imovel-tipo { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brown); margin-bottom: 6px; }
+  .imovel-nome {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; font-weight: 600; color: var(--text); margin-bottom: 8px;
+  }
+  .imovel-local { font-size: 0.78rem; color: var(--muted); margin-bottom: 16px; display: flex; align-items: center; gap: 5px; }
+  .imovel-features { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 16px; }
+  .imovel-feat { font-size: 0.75rem; color: var(--muted); display: flex; align-items: center; gap: 4px; }
+  .imovel-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 600; color: var(--green);
+    border-top: 1px solid var(--border); padding-top: 14px; margin-top: 10px;
+  }
+  .imovel-price small { font-size: 0.7rem; color: var(--muted); font-family: 'Jost', sans-serif; font-weight: 400; display: block; }
+
+  /* ═══════════════════
+     POR QUE ESCOLHER
+  ═══════════════════ */
+  #diferenciais {
+    background: var(--green);
+    padding: 90px 5%;
+    position: relative; overflow: hidden;
+  }
+  #diferenciais::before {
+    content: '';
+    position: absolute; top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+    pointer-events: none;
+  }
+
+  #diferenciais .section-eyebrow { color: rgba(255,255,255,0.5); }
+  #diferenciais .section-title { color: white; }
+  #diferenciais .section-title em { color: #c8d8b8; }
+  #diferenciais .section-line { background: rgba(255,255,255,0.2); }
+
+  .diferenciais-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 2px; max-width: 1100px; margin: 0 auto;
+  }
+
+  .diferencial-item {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 40px 28px;
+    transition: background 0.3s;
+  }
+  .diferencial-item:hover { background: rgba(255,255,255,0.1); }
+  .diferencial-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem; font-weight: 300;
+    color: rgba(255,255,255,0.15); line-height: 1; margin-bottom: 16px;
+  }
+  .diferencial-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 600;
+    color: white; margin-bottom: 10px;
+  }
+  .diferencial-desc { font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.7; }
+
+  /* ═══════════════════
+     AVALIAÇÕES
+  ═══════════════════ */
+  #avaliacoes { background: var(--white); padding: 90px 5%; }
+
+  .rating-header {
+    display: flex; align-items: center; gap: 48px;
+    max-width: 1100px; margin: 0 auto 60px;
+    padding: 40px;
+    background: var(--green-pale);
+    border: 1px solid #c8d8c4;
+  }
+  .rating-big { text-align: center; flex-shrink: 0; }
+  .rating-big .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem; font-weight: 600; color: var(--green); line-height: 1;
+  }
+  .rating-big .stars { color: #f5c842; font-size: 1.1rem; letter-spacing: 3px; margin: 4px 0; }
+  .rating-big .count { font-size: 0.75rem; color: var(--muted); }
+  .rating-divider { width: 1px; height: 80px; background: var(--border); flex-shrink: 0; }
+  .rating-bars { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .rating-bar-row { display: flex; align-items: center; gap: 10px; }
+  .rating-bar-label { font-size: 0.75rem; color: var(--muted); width: 32px; text-align: right; flex-shrink: 0; }
+  .rating-bar-track { flex: 1; height: 6px; background: var(--sand); border-radius: 3px; overflow: hidden; }
+  .rating-bar-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width 1s ease; }
+  .rating-bar-pct { font-size: 0.7rem; color: var(--muted); width: 30px; flex-shrink: 0; }
+
+  .avaliacoes-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px; max-width: 1100px; margin: 0 auto;
+  }
+
+  .avaliacao-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 30px 26px;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+  .avaliacao-card:hover { border-color: var(--green); }
+  .av-stars { color: #f5c842; font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 14px; }
+  .av-text { font-size: 0.85rem; color: var(--text); line-height: 1.75; font-style: italic; margin-bottom: 20px; }
+  .av-author { display: flex; align-items: center; gap: 12px; }
+  .av-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    object-fit: cover; filter: grayscale(20%);
+    border: 2px solid var(--border);
+  }
+  .av-name { font-size: 0.82rem; font-weight: 600; }
+  .av-date { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+  .av-google { position: absolute; top: 18px; right: 20px; font-size: 1rem; opacity: 0.4; }
+
+  /* ═══════════════════
+     CONTATO / LOCALIZAÇÃO
+  ═══════════════════ */
+  #contato { background: var(--cream); padding: 90px 5%; }
+
+  .contato-layout {
+    display: grid; grid-template-columns: 1fr 1.4fr;
+    gap: 60px; max-width: 1100px; margin: 0 auto;
+    align-items: start;
+  }
+
+  .contato-info .section-title { text-align: left; margin-bottom: 24px; }
+  .contato-info p { font-size: 0.88rem; color: var(--muted); line-height: 1.8; margin-bottom: 32px; }
+
+  .info-blocks { display: flex; flex-direction: column; gap: 18px; }
+  .info-block { display: flex; align-items: flex-start; gap: 14px; }
+  .info-icon {
+    width: 38px; height: 38px; flex-shrink: 0;
+    background: var(--green-pale);
+    border: 1px solid #f0c0d0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.95rem;
+  }
+  .info-block strong { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 2px; }
+  .info-block span { font-size: 0.78rem; color: var(--muted); }
+
+  .contato-ctas { display: flex; flex-direction: column; gap: 10px; margin-top: 28px; }
+  .btn-green {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--green); color: white;
+    padding: 14px 24px; font-size: 0.82rem; font-weight: 500;
+    letter-spacing: 0.06em; text-decoration: none; border-radius: 2px;
+    transition: background 0.2s, transform 0.2s; width: fit-content;
+  }
+  .btn-green:hover { background: var(--green-light); transform: translateY(-1px); }
+  .btn-outline-brown {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: transparent; color: var(--brown);
+    border: 1px solid var(--brown);
+    padding: 13px 24px; font-size: 0.82rem; font-weight: 500;
+    letter-spacing: 0.06em; text-decoration: none; border-radius: 2px;
+    transition: background 0.2s; width: fit-content;
+  }
+  .btn-outline-brown:hover { background: rgba(140,111,78,0.08); }
+
+  .map-container {
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .map-container iframe { width: 100%; height: 400px; display: block; border: none; }
+
+  /* ═══════════════════
+     FOOTER
+  ═══════════════════ */
+  footer {
+    background: var(--brown-dark);
+    color: rgba(255,255,255,0.7);
+    padding: 50px 5% 24px;
+  }
+
+  .footer-top {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 40px; flex-wrap: wrap;
+    padding-bottom: 36px; margin-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .footer-brand .nav-logo { color: white; }
+  .footer-brand p { font-size: 0.8rem; line-height: 1.75; margin-top: 12px; max-width: 260px; }
+
+  .footer-col h5 {
+    font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: rgba(255,255,255,0.4); margin-bottom: 14px;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .footer-col ul a { font-size: 0.8rem; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
+  .footer-col ul a:hover { color: white; }
+
+  .footer-socials { display: flex; gap: 8px; margin-top: 16px; }
+  .social-btn {
+    width: 34px; height: 34px;
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.5); font-size: 0.7rem;
+    text-decoration: none; transition: border-color 0.2s, color 0.2s;
+  }
+  .social-btn:hover { border-color: rgba(255,255,255,0.5); color: white; }
+
+  .footer-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .footer-bottom p { font-size: 0.72rem; color: rgba(255,255,255,0.35); }
+  .footer-bottom span { color: rgba(255,255,255,0.5); }
+
+  /* FLOATING WHATSAPP */
+  .float-wa {
+    position: fixed; bottom: 24px; right: 24px; z-index: 8000;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+  }
+  .float-wa-tip {
+    background: var(--text); color: white;
+    font-size: 0.72rem; padding: 6px 12px;
+    white-space: nowrap; opacity: 0; transform: translateX(8px);
+    transition: opacity 0.25s, transform 0.25s; pointer-events: none;
+    border-radius: 2px;
+  }
+  .float-wa:hover .float-wa-tip { opacity: 1; transform: translateX(0); }
+  .float-wa-btn {
+    width: 52px; height: 52px; background: #25D366; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; box-shadow: 0 4px 18px rgba(37,211,102,0.3);
+    transition: transform 0.25s, box-shadow 0.25s; position: relative;
+  }
+  .float-wa-btn:hover { transform: scale(1.1); box-shadow: 0 8px 24px rgba(37,211,102,0.45); }
+  .float-wa-btn svg { width: 26px; height: 26px; fill: white; }
+  .wa-pulse {
+    position: absolute; inset: 0; border-radius: 50%;
+    background: #25D366; animation: pulse 2.5s ease-out infinite; z-index: -1;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes zoomIn {
+    from { opacity: 0; transform: scale(1.05); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(1.7); opacity: 0; }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    #hero { grid-template-columns: 1fr; }
+    .hero-right { height: 300px; }
+    .servicos-grid, .imoveis-grid, .avaliacoes-grid { grid-template-columns: 1fr; }
+    .diferenciais-grid { grid-template-columns: 1fr 1fr; }
+    .contato-layout { grid-template-columns: 1fr; }
+    .rating-header { flex-direction: column; gap: 24px; }
+    .rating-divider { display: none; }
+  }
+  @media (max-width: 600px) {
+    .diferenciais-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Ohana <span>Imóveis</span></a>
+  <a href="tel:+5500000000000" class="nav-cta">📞 Ligar Agora</a>
+</nav>
+
+<!-- ══════════════════════════════
+     HERO — PRIMEIRA DOBRA
+══════════════════════════════ -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-badge">Imóveis · Sua Cidade — SP</div>
+    <h1 class="hero-title">
+      Encontre o lar<br>
+      <em>perfeito</em> para<br>
+      sua família
+    </h1>
+    <div class="hero-rating">
+      <span class="rating-num">4.9</span>
+      <div>
+        <div class="rating-stars">★★★★★</div>
+        <div class="rating-text">+127 avaliações no Google</div>
+      </div>
+    </div>
+    <p class="hero-sub">Especialistas em compra, venda e locação de imóveis residenciais e comerciais. Atendimento personalizado, do início ao fim do processo.</p>
+    <div class="hero-ctas">
+      <a href="tel:+5500000000000" class="cta-phone">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+        </svg>
+        Ligar Agora — (12) 99999-9999
+      </a>
+      <a href="https://maps.google.com" target="_blank" class="cta-maps">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+        Ver Rota no Google Maps
+      </a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=900&auto=format&fit=crop" alt="Imóvel Ohana">
+    <div class="hero-right-overlay"></div>
+    <div class="hero-tag">
+      <strong>Ohana Imóveis</strong>
+      <span>Corretora de Imóveis · Desde 2010</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     SERVIÇOS
+══════════════════════════════ -->
+<section id="servicos">
+  <div class="section-head reveal">
+    <span class="section-eyebrow">O que fazemos</span>
+    <h2 class="section-title">Nossos <em>Serviços</em></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="servicos-grid">
+    <div class="servico-card reveal">
+      <span class="servico-icon">🏠</span>
+      <div class="servico-name">Compra e Venda</div>
+      <div class="servico-desc">Encontramos o imóvel ideal para você ou vendemos o seu com agilidade, segurança jurídica e o melhor preço do mercado.</div>
+    </div>
+    <div class="servico-card reveal">
+      <span class="servico-icon">🔑</span>
+      <div class="servico-name">Locação</div>
+      <div class="servico-desc">Intermediamos aluguéis residenciais e comerciais com contrato seguro, gestão completa e suporte durante toda a vigência.</div>
+    </div>
+    <div class="servico-card reveal">
+      <span class="servico-icon">📋</span>
+      <div class="servico-name">Consultoria Imobiliária</div>
+      <div class="servico-desc">Avaliação de mercado, análise documental e orientação completa para você tomar a melhor decisão com confiança.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     IMÓVEIS EM DESTAQUE
+══════════════════════════════ -->
+<section id="imoveis">
+  <div class="section-head reveal">
+    <span class="section-eyebrow">Portfólio</span>
+    <h2 class="section-title">Imóveis em <em>Destaque</em></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="imoveis-grid">
+    <div class="imovel-card reveal">
+      <div class="imovel-img">
+        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&h=520&auto=format&fit=crop" alt="Casa residencial com jardim" onerror="this.src='https://picsum.photos/seed/house1/800/520'">
+        <span class="imovel-tag">Venda</span>
+      </div>
+      <div class="imovel-body">
+        <div class="imovel-tipo">Casa Residencial</div>
+        <div class="imovel-nome">Casa com Jardim em Condomínio</div>
+        <div class="imovel-local">📍 Jardim das Flores · Sua Cidade</div>
+        <div class="imovel-features">
+          <span class="imovel-feat">🛏 3 quartos</span>
+          <span class="imovel-feat">🚿 2 banheiros</span>
+          <span class="imovel-feat">🚗 2 vagas</span>
+          <span class="imovel-feat">📐 180m²</span>
+        </div>
+        <div class="imovel-price">
+          R$ 650.000
+          <small>Consulte condições de financiamento</small>
+        </div>
+      </div>
+    </div>
+    <div class="imovel-card reveal">
+      <div class="imovel-img">
+        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=520&auto=format&fit=crop" alt="Apartamento alto padrão" onerror="this.src='https://picsum.photos/seed/apart1/800/520'">
+        <span class="imovel-tag">Locação</span>
+      </div>
+      <div class="imovel-body">
+        <div class="imovel-tipo">Apartamento</div>
+        <div class="imovel-nome">Apartamento Alto Padrão</div>
+        <div class="imovel-local">📍 Centro · Sua Cidade</div>
+        <div class="imovel-features">
+          <span class="imovel-feat">🛏 2 quartos</span>
+          <span class="imovel-feat">🚿 1 banheiro</span>
+          <span class="imovel-feat">🚗 1 vaga</span>
+          <span class="imovel-feat">📐 85m²</span>
+        </div>
+        <div class="imovel-price">
+          R$ 2.800/mês
+          <small>+ condomínio e IPTU</small>
+        </div>
+      </div>
+    </div>
+    <div class="imovel-card reveal">
+      <div class="imovel-img">
+        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=520&auto=format&fit=crop" alt="Casa moderna com piscina" onerror="this.src='https://picsum.photos/seed/house2/800/520'">
+        <span class="imovel-tag">Venda</span>
+      </div>
+      <div class="imovel-body">
+        <div class="imovel-tipo">Casa de Alto Padrão</div>
+        <div class="imovel-nome">Casa Moderna com Piscina</div>
+        <div class="imovel-local">📍 Alphaville · Sua Cidade</div>
+        <div class="imovel-features">
+          <span class="imovel-feat">🛏 4 quartos</span>
+          <span class="imovel-feat">🚿 3 banheiros</span>
+          <span class="imovel-feat">🚗 3 vagas</span>
+          <span class="imovel-feat">📐 320m²</span>
+        </div>
+        <div class="imovel-price">
+          R$ 1.250.000
+          <small>Aceita financiamento CEF</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     DIFERENCIAIS
+══════════════════════════════ -->
+<section id="diferenciais">
+  <div class="section-head reveal">
+    <span class="section-eyebrow">Por que nos escolher</span>
+    <h2 class="section-title">Nossos <em>Diferenciais</em></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="diferenciais-grid">
+    <div class="diferencial-item reveal">
+      <div class="diferencial-num">01</div>
+      <div class="diferencial-title">Atendimento Familiar</div>
+      <div class="diferencial-desc">Tratamos cada cliente como família. Nosso nome "Ohana" representa exatamente isso: cuidado e compromisso genuíno.</div>
+    </div>
+    <div class="diferencial-item reveal">
+      <div class="diferencial-num">02</div>
+      <div class="diferencial-title">+15 Anos no Mercado</div>
+      <div class="diferencial-desc">Experiência local consolidada. Conhecemos cada bairro, cada particularidade do mercado imobiliário da região.</div>
+    </div>
+    <div class="diferencial-item reveal">
+      <div class="diferencial-num">03</div>
+      <div class="diferencial-title">Segurança Jurídica</div>
+      <div class="diferencial-desc">Toda a documentação verificada e processos conduzidos com total transparência do início ao fim da negociação.</div>
+    </div>
+    <div class="diferencial-item reveal">
+      <div class="diferencial-num">04</div>
+      <div class="diferencial-title">Pós-venda Ativo</div>
+      <div class="diferencial-desc">Nossa relação não termina com a assinatura. Acompanhamos você mesmo depois da chave na mão.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     AVALIAÇÕES
+══════════════════════════════ -->
+<section id="avaliacoes">
+  <div class="section-head reveal">
+    <span class="section-eyebrow">Google Reviews</span>
+    <h2 class="section-title">O que dizem nossos <em>Clientes</em></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="rating-header reveal">
+    <div class="rating-big">
+      <div class="num">4.9</div>
+      <div class="stars">★★★★★</div>
+      <div class="count">127 avaliações</div>
+    </div>
+    <div class="rating-divider"></div>
+    <div class="rating-bars">
+      <div class="rating-bar-row">
+        <span class="rating-bar-label">5★</span>
+        <div class="rating-bar-track"><div class="rating-bar-fill" style="width:92%"></div></div>
+        <span class="rating-bar-pct">92%</span>
+      </div>
+      <div class="rating-bar-row">
+        <span class="rating-bar-label">4★</span>
+        <div class="rating-bar-track"><div class="rating-bar-fill" style="width:6%"></div></div>
+        <span class="rating-bar-pct">6%</span>
+      </div>
+      <div class="rating-bar-row">
+        <span class="rating-bar-label">3★</span>
+        <div class="rating-bar-track"><div class="rating-bar-fill" style="width:2%"></div></div>
+        <span class="rating-bar-pct">2%</span>
+      </div>
+      <div class="rating-bar-row">
+        <span class="rating-bar-label">2★</span>
+        <div class="rating-bar-track"><div class="rating-bar-fill" style="width:0%"></div></div>
+        <span class="rating-bar-pct">0%</span>
+      </div>
+      <div class="rating-bar-row">
+        <span class="rating-bar-label">1★</span>
+        <div class="rating-bar-track"><div class="rating-bar-fill" style="width:0%"></div></div>
+        <span class="rating-bar-pct">0%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="avaliacoes-grid">
+    <div class="avaliacao-card reveal">
+      <span class="av-google">G</span>
+      <div class="av-stars">★★★★★</div>
+      <p class="av-text">"A Ohana Imóveis foi incrível em todo o processo. Compramos nossa primeira casa e nos sentiram seguros do início ao fim. Atendimento impecável, muito profissional e humano."</p>
+      <div class="av-author">
+        <img class="av-avatar" src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&auto=format&fit=crop&crop=face" alt="Fernanda">
+        <div>
+          <div class="av-name">Fernanda Oliveira</div>
+          <div class="av-date">Há 2 semanas</div>
+        </div>
+      </div>
+    </div>
+    <div class="avaliacao-card reveal">
+      <span class="av-google">G</span>
+      <div class="av-stars">★★★★★</div>
+      <p class="av-text">"Vendi meu apartamento em menos de 30 dias! A equipe da Ohana é extremamente competente e sempre disponível para tirar dúvidas. Recomendo de olhos fechados para todos!"</p>
+      <div class="av-author">
+        <img class="av-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&auto=format&fit=crop&crop=face" alt="Roberto">
+        <div>
+          <div class="av-name">Roberto Mendes</div>
+          <div class="av-date">Há 1 mês</div>
+        </div>
+      </div>
+    </div>
+    <div class="avaliacao-card reveal">
+      <span class="av-google">G</span>
+      <div class="av-stars">★★★★★</div>
+      <p class="av-text">"Alugamos uma sala comercial com a Ohana e foi tudo muito tranquilo. Toda documentação bem explicada, processo rápido e preço justo. Voltaremos com certeza para o próximo!"</p>
+      <div class="av-author">
+        <img class="av-avatar" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&auto=format&fit=crop&crop=face" alt="Carla">
+        <div>
+          <div class="av-name">Carla Souza</div>
+          <div class="av-date">Há 3 semanas</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     CONTATO + MAPA
+══════════════════════════════ -->
+<section id="contato">
+  <div class="contato-layout">
+    <div class="contato-info reveal">
+      <span class="section-eyebrow">Fale Conosco</span>
+      <h2 class="section-title">Venha nos <em>Visitar</em></h2>
+      <p>Estamos prontos para te ajudar a encontrar o imóvel dos seus sonhos. Entre em contato ou visite nosso escritório.</p>
+      <div class="info-blocks">
+        <div class="info-block">
+          <div class="info-icon">📍</div>
+          <div>
+            <strong>Endereço</strong>
+            <span>Rua das Flores, 123 — Centro<br>Sua Cidade — SP</span>
+          </div>
+        </div>
+        <div class="info-block">
+          <div class="info-icon">⏰</div>
+          <div>
+            <strong>Horário de Atendimento</strong>
+            <span>Segunda a Sexta: 8h – 18h<br>Sábado: 8h – 13h</span>
+          </div>
+        </div>
+        <div class="info-block">
+          <div class="info-icon">📞</div>
+          <div>
+            <strong>Telefone / WhatsApp</strong>
+            <span>(12) 99999-9999</span>
+          </div>
+        </div>
+        <div class="info-block">
+          <div class="info-icon">✉️</div>
+          <div>
+            <strong>E-mail</strong>
+            <span>contato@ohanaimoveis.com.br</span>
+          </div>
+        </div>
+      </div>
+      <div class="contato-ctas">
+        <a href="tel:+5512999999999" class="btn-green">
+          📞 Ligar Agora
+        </a>
+        <a href="https://maps.google.com" target="_blank" class="btn-outline-brown">
+          📍 Ver Rota no Google Maps
+        </a>
+        <a href="https://wa.me/5512999999999?text=Olá!%20Vim%20pelo%20site%20e%20gostaria%20de%20mais%20informações%20sobre%20imóveis." target="_blank" class="btn-green" style="background:#25D366">
+          💬 WhatsApp
+        </a>
+      </div>
+    </div>
+    <div class="map-container reveal">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3667.0!2d-45.8872!3d-23.1794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cc4a4b8b8b8b8b%3A0x0!2sSão%20José%20dos%20Campos%2C%20SP!5e0!3m2!1spt!2sbr!4v1000000000000"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     FOOTER
+══════════════════════════════ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#hero" class="nav-logo">Ohana <span>Imóveis</span></a>
+      <p>Especialistas em compra, venda e locação. Família é tudo — e encontrar o lar certo também.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-btn">ig</a>
+        <a href="#" class="social-btn">fb</a>
+        <a href="#" class="social-btn">wp</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Navegação</h5>
+      <ul>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#imoveis">Imóveis</a></li>
+        <li><a href="#avaliacoes">Avaliações</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contato</h5>
+      <ul>
+        <li><a href="tel:+5512999999999">(12) 99999-9999</a></li>
+        <li><a href="#">contato@ohanaimoveis.com.br</a></li>
+        <li><a href="#">Rua das Flores, 123 — Centro</a></li>
+        <li><a href="#">Seg–Sex: 8h–18h</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 <span>Ohana Imóveis</span>. Todos os direitos reservados.</p>
+    <p>CRECI: <span>SP-XXXXX</span></p>
+  </div>
+</footer>
+
+<!-- FLOATING WHATSAPP -->
+<div class="float-wa">
+  <div class="float-wa-tip">💬 Falar com a Ohana</div>
+  <a class="float-wa-btn" href="https://wa.me/5512999999999?text=Olá!%20Vim%20pelo%20site%20e%20gostaria%20de%20informações%20sobre%20imóveis." target="_blank">
+    <div class="wa-pulse"></div>
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+  </a>
+</div>
+
+<script>
+  // Navbar scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  // Reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 100);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
